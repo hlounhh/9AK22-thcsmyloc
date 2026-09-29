@@ -993,27 +993,6 @@ function hideRotatePrompt() {
   rotatePromptModal.classList.remove('opacity-100');
 }
 
-function tryEnterFullscreen() {
-  const el = document.documentElement;
-  if (!document.fullscreenElement) {
-    if (el.requestFullscreen) {
-      el.requestFullscreen().catch(() => {});
-    } else if (el.webkitRequestFullscreen) {
-      el.webkitRequestFullscreen().catch(() => {});
-    }
-  }
-}
-
-function tryExitFullscreen() {
-  if (document.fullscreenElement) {
-    if (document.exitFullscreen) {
-      document.exitFullscreen().catch(() => {});
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen().catch(() => {});
-    }
-  }
-}
-
 function initRotatePrompt() {
   if (!rotatePromptModal) return;
 
@@ -1026,30 +1005,13 @@ function initRotatePrompt() {
       scheduleCycleWidthUpdate();
       applyScrollTransform();
     }, 200);
-
-    const isLandscape = window.innerWidth > window.innerHeight;
-    if (isMobileDevice()) {
-      if (isLandscape) {
-        tryEnterFullscreen();
-      } else {
-        tryExitFullscreen();
-      }
-    }
   };
 
   window.addEventListener('resize', handleViewportChange);
-  window.addEventListener('orientationchange', handleViewportChange);
   document.addEventListener('fullscreenchange', handleViewportChange);
   if (screen.orientation) {
     screen.orientation.addEventListener('change', handleViewportChange);
   }
-
-  window.addEventListener('touchstart', () => {
-    const isLandscape = window.innerWidth > window.innerHeight;
-    if (isMobileDevice() && isLandscape && !document.fullscreenElement) {
-      tryEnterFullscreen();
-    }
-  }, { passive: true });
 
   if (btnEnterLandscapeFullscreen) {
     btnEnterLandscapeFullscreen.addEventListener('click', async () => {
