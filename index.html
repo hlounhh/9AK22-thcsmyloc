@@ -5,33 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>9ak22 THCS Mỹ Lộc</title>
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="favicon.jpg">
   <link rel="shortcut icon" href="favicon.jpg">
   <link rel="apple-touch-icon" href="favicon.jpg">
 
-  <!-- File CSS riêng -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="relative flex items-center justify-center w-full h-full bg-black">
 
-  <!-- Thẻ Audio nạp file nhạc nội bộ - tự động phát -->
   <audio id="bgAudio" src="nhac.mp3" autoplay loop preload="auto"></audio>
 
-  <!-- Khu vực trung tâm: Cuộn phim chạy ngang duy nhất -->
   <div id="reelViewport" class="w-full overflow-x-hidden no-scrollbar cursor-grab active:cursor-grabbing select-none flex items-center py-4">
-    <div id="reelTrack" class="flex items-center gap-5 md:gap-8 w-max will-change-transform">
-      <!-- Nạp tự động qua JavaScript -->
-    </div>
+    <div id="reelTrack" class="flex items-center gap-5 md:gap-8 w-max will-change-transform"></div>
   </div>
 
-  <!-- Nút phát nhạc local (Góc dưới bên trái) -->
   <div class="stealth-control fixed bottom-6 left-6 z-40 flex items-center space-x-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-2 shadow-2xl">
     <button id="btnToggleAudio" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white text-xs transition" title="Bật / Dừng nhạc local">
       <i id="audioIcon" class="fa-solid fa-play ml-0.5"></i>
@@ -46,7 +36,6 @@
     <span id="currentSongLabel" class="text-[10px] text-neutral-400 font-mono pr-1 max-w-[90px] sm:max-w-[120px] truncate">nhac.mp3</span>
   </div>
 
-  <!-- Nút cài đặt & quản lý ảnh/video (Góc dưới bên phải) -->
   <div class="stealth-control fixed bottom-6 right-6 z-40 flex items-center space-x-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-2 shadow-2xl">
     <button id="btnOpenSettings" class="text-neutral-300 hover:text-white text-xs flex items-center space-x-1.5 px-1 py-0.5" title="Thêm Media & Cài đặt">
       <i class="fa-solid fa-gear text-sm"></i>
@@ -54,12 +43,10 @@
     </button>
   </div>
 
-  <!-- Thông báo chạm bật âm thanh trên mobile -->
   <div id="tapNotice" class="fixed top-6 left-1/2 -translate-x-1/2 pointer-events-none transition-opacity duration-700 text-[11px] uppercase tracking-widest text-neutral-400 bg-neutral-950/80 px-4 py-1.5 rounded-full border border-neutral-800">
     Chạm màn hình để bật nhạc
   </div>
 
-  <!-- Modal: Phóng to toàn màn hình -->
   <div id="fullscreenModal" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 hidden transition-opacity duration-200 opacity-0 cursor-zoom-out">
     <button id="btnCloseFullscreen" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-neutral-900/80 text-white flex items-center justify-center border border-neutral-800 active:scale-95 transition">
       <i class="fa-solid fa-xmark text-sm"></i>
@@ -67,7 +54,6 @@
     <div id="fullscreenContent" class="max-w-4xl max-h-[85vh] w-full flex items-center justify-center overflow-hidden rounded-[24px]"></div>
   </div>
 
-  <!-- Modal: Quản lý Media & Cài đặt -->
   <div id="settingsModal" class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 hidden">
     <div class="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
       <div class="flex justify-between items-center mb-4">
@@ -77,13 +63,11 @@
         </button>
       </div>
 
-      <!-- Chuyển đổi tab Upload / Dán link -->
       <div class="flex border-b border-neutral-800 mb-4 text-xs font-medium">
         <button id="tabUploadBtn" class="flex-1 py-2 border-b-2 border-white text-white">Upload Cloudinary</button>
         <button id="tabUrlBtn" class="flex-1 py-2 text-neutral-500 hover:text-neutral-300">Dán Link Media</button>
       </div>
 
-      <!-- Tab 1: Upload file -->
       <div id="sectionUpload" class="space-y-4 text-xs">
         <label class="border border-dashed border-neutral-700 hover:border-neutral-500 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-black/40">
           <i class="fa-solid fa-cloud-arrow-up text-2xl text-neutral-400 mb-2"></i>
@@ -93,7 +77,6 @@
         
         <div id="chosenFileName" class="text-neutral-400 text-xs truncate hidden bg-neutral-950 p-2 rounded-lg border border-neutral-800"></div>
 
-        <!-- Thanh tiến trình upload nhiều file -->
         <div id="uploadProgressWrapper" class="space-y-1.5 hidden">
           <div class="flex justify-between text-[11px] text-neutral-400">
             <span id="uploadStatusText">Đang tải lên...</span>
@@ -107,7 +90,6 @@
         <button id="btnExecuteUpload" class="w-full py-2.5 bg-white text-black font-semibold rounded-xl active:scale-95 transition">Bắt đầu Upload</button>
       </div>
 
-      <!-- Tab 2: Dán URL -->
       <div id="sectionUrl" class="space-y-3 text-xs hidden">
         <div>
           <label class="text-neutral-400 block mb-1">Đường dẫn ảnh/video Cloudinary:</label>
@@ -133,7 +115,6 @@
         <button id="btnAddDirectUrl" class="w-full py-2.5 bg-white text-black font-semibold rounded-xl active:scale-95 transition">Thêm vào dải phim</button>
       </div>
 
-      <!-- Danh sách khung hình hiện tại -->
       <div class="mt-6 pt-4 border-t border-neutral-800">
         <div class="flex items-center justify-between mb-2">
           <h4 class="text-xs font-medium text-neutral-400">Các khung hình hiện tại:</h4>
@@ -146,7 +127,6 @@
     </div>
   </div>
 
-  <!-- File JavaScript riêng -->
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,39 +1,154 @@
-// language: JavaScript, file: script.js, target: Web
-
-/* ==========================================================================
- * 1. CẤU HÌNH & TRẠNG THÁI (CONFIG & STATE)
- * ========================================================================== */
 const LOCAL_MUSIC_PATH = './nhac.mp3';
+
+const STORAGE_KEY = 'pure_film_media_v3';
 
 const defaultMediaList = [
   {
-    id: 'cld_1',
+    id: 'cld_v1',
     type: 'video',
-    url: 'https://res.cloudinary.com/demo/video/upload/q_auto,vc_h264/dog.mp4'
+    url: 'https://res.cloudinary.com/nodetely/video/upload/v1790689333/ql9ysj7qikrgsasmbpjp.mp4',
+    isPortrait: true
   },
   {
-    id: 'cld_2',
+    id: 'cld_v2',
+    type: 'video',
+    url: 'https://res.cloudinary.com/nodetely/video/upload/v1790688886/lvkjlbufchuqywombw7c.mp4',
+    isPortrait: true
+  },
+  {
+    id: 'cld_v3',
+    type: 'video',
+    url: 'https://res.cloudinary.com/nodetely/video/upload/v1790688795/k992gmurefxm7cqrw5tw.mp4',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img1',
     type: 'image',
-    url: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1000&q=80'
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790695019/clkrpdvayoesnp4monjh.jpg',
+    isPortrait: true
   },
   {
-    id: 'cld_3',
-    type: 'video',
-    url: 'https://res.cloudinary.com/demo/video/upload/q_auto,vc_h264/elephants.mp4'
-  },
-  {
-    id: 'cld_4',
+    id: 'cld_img2',
     type: 'image',
-    url: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1000&q=80'
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790695018/sdbp0qdptkqe9npa9qc7.jpg',
+    isPortrait: true
   },
   {
-    id: 'cld_5',
-    type: 'video',
-    url: 'https://res.cloudinary.com/demo/video/upload/q_auto,vc_h264/sea_turtle.mp4'
+    id: 'cld_img3',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790695017/qjf76bl9h0miczccyemc.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img4',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790691185/towfy6welnwxvqfjddbr.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img5',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790691122/m9mr3dy68adpwxxwhzrj.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img6',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790691121/qdhvgfvi8t9itjscjowh.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img7',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689386/a9wphcnvc61fmxmodqdb.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img8',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689384/quanr81f0tw5el3n6atn.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img9',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689378/wahi460uhvlou28sp5uj.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img10',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689373/xebhfktuog9go7qbxsez.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img11',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689368/oer6qnb59tuy9yjn8s2j.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img12',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689366/nkdmiofphge9h42kswn3.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img13',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689364/uauymezjqdgc25olcbwh.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img14',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689360/amewlpelkucidh5rmhyd.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img15',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689357/yppq6abblqpulrxnnhj1.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img16',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689353/bunwylsjmjzgo8ghz2hu.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img17',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689351/wp6b6t1zsmmsmpp7wojo.jpg',
+    isPortrait: false
+  },
+  {
+    id: 'cld_img18',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689349/jydpq7ttuk40gdzrdfvn.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img19',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689346/ua16x1ni2mbwivhs8mfk.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img20',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689341/yzrob92ngdwykkw416aa.jpg',
+    isPortrait: true
+  },
+  {
+    id: 'cld_img21',
+    type: 'image',
+    url: 'https://res.cloudinary.com/nodetely/image/upload/v1790689338/lvxqhozkczq7eabqdtnj.jpg',
+    isPortrait: true
   }
 ];
 
-// Cấu hình Cloudinary trực tiếp vào code
 const CLOUDINARY_CONFIG = {
   cloudName: 'nodetely',
   apiKey: '715541221342479',
@@ -41,7 +156,7 @@ const CLOUDINARY_CONFIG = {
 };
 
 const state = {
-  mediaList: JSON.parse(localStorage.getItem('pure_film_media')) || defaultMediaList,
+  mediaList: JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultMediaList,
   scrollPos: 0,
   scrollSpeed: 2.0,
   cycleWidth: 0,
@@ -50,9 +165,6 @@ const state = {
   isPlayingAudio: false
 };
 
-/* ==========================================================================
- * 2. DOM ELEMENTS
- * ========================================================================== */
 const reelTrack = document.getElementById('reelTrack');
 const reelViewport = document.getElementById('reelViewport');
 
@@ -89,16 +201,9 @@ const btnAddDirectUrl = document.getElementById('btnAddDirectUrl');
 
 const mediaManagerList = document.getElementById('mediaManagerList');
 
-/* ==========================================================================
- * 3. QUẢN LÝ DẢI PHIM & CUỘN TỰ ĐỘNG (REEL & AUTO-SCROLL)
- * ========================================================================== */
 let videoObserver = null;
 let cycleWidthUpdateTimer = null;
 
-/**
- * IntersectionObserver: Chỉ phát video khi xuất hiện trong khung nhìn (Viewport)
- * Tự động tạm dừng video ngoài màn hình để giải phóng 100% kênh giải mã GPU và CPU
- */
 function initVideoObserver() {
   if (videoObserver) {
     videoObserver.disconnect();
@@ -126,9 +231,6 @@ function initVideoObserver() {
   );
 }
 
-/**
- * Tránh Layout Thrashing: Gom các yêu cầu tính toán chu kỳ vào requestAnimationFrame
- */
 function scheduleCycleWidthUpdate() {
   if (cycleWidthUpdateTimer) return;
   cycleWidthUpdateTimer = requestAnimationFrame(() => {
@@ -171,12 +273,10 @@ function renderReel() {
       vid.preload = 'metadata';
       vid.className = 'w-full h-full object-cover pointer-events-none';
 
-      // Đăng ký IntersectionObserver để chỉ phát video khi ở trên màn hình
       if (videoObserver) {
         videoObserver.observe(vid);
       }
 
-      // Tự động căn chuẩn tỷ lệ theo kích thước thực của video khi load xong metadata
       vid.addEventListener('loadedmetadata', () => {
         if (vid.videoWidth && vid.videoHeight) {
           const isPortrait = vid.videoHeight > vid.videoWidth;
@@ -192,7 +292,7 @@ function renderReel() {
               }
             });
             scheduleCycleWidthUpdate();
-            localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
           }
         }
       });
@@ -205,7 +305,6 @@ function renderReel() {
       img.className = 'w-full h-full object-cover pointer-events-none select-none';
       img.onerror = () => { img.src = 'https://placehold.co/800x450/111/444?text=Media'; };
 
-      // Tự động căn chuẩn tỷ lệ theo kích thước thực của ảnh khi tải xong
       img.addEventListener('load', () => {
         if (img.naturalWidth && img.naturalHeight) {
           const isPortrait = img.naturalHeight > img.naturalWidth;
@@ -221,7 +320,7 @@ function renderReel() {
               }
             });
             scheduleCycleWidthUpdate();
-            localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
           }
         }
       });
@@ -237,16 +336,12 @@ function renderReel() {
     reelTrack.appendChild(card);
   });
 
-  // Reset và đo lại chính xác chu kỳ cuộn
   state.cycleWidth = 0;
   scheduleCycleWidthUpdate();
   applyScrollTransform();
   renderMediaManagerList();
 }
 
-/**
- * Đo khoảng cách chính xác từng pixel giữa thẻ 0 và thẻ n (1 chu kỳ đầy đủ bao gồm cards + gaps)
- */
 function updateCycleWidth() {
   if (!reelTrack) return;
   const cards = reelTrack.querySelectorAll('.film-card');
@@ -256,10 +351,6 @@ function updateCycleWidth() {
   }
 }
 
-/**
- * Dịch chuyển dải phim bằng GPU Compositor (translate3d)
- * Không sử dụng scrollLeft để tránh khóa luồng chính (Main Thread)
- */
 function applyScrollTransform() {
   if (!reelTrack) return;
   reelTrack.style.transform = `translate3d(${-state.scrollPos}px, 0, 0)`;
@@ -282,7 +373,6 @@ function startAutoScroll() {
     if (state.cycleWidth > 0 && delta > 0) {
       state.scrollPos += state.scrollSpeed * delta;
       
-      // Khi vượt qua 1 chu kỳ chuẩn, chỉ trừ đi đúng 1 chu kỳ
       if (state.scrollPos >= state.cycleWidth) {
         state.scrollPos -= state.cycleWidth;
       } else if (state.scrollPos < 0) {
@@ -342,9 +432,6 @@ function initReelEvents() {
   });
 }
 
-/* ==========================================================================
- * 4. QUẢN LÝ ÂM THANH (AUDIO CONTROLS)
- * ========================================================================== */
 function initAudio() {
   if (!bgAudio) return;
   bgAudio.src = LOCAL_MUSIC_PATH;
@@ -361,13 +448,9 @@ function initAudio() {
     });
   }
 
-  // Tự động phát nhạc ngay lập tức khi mở web
   attemptAutoplay();
 }
 
-/**
- * Thử tự động phát nhạc ngay khi nạp trang web
- */
 function attemptAutoplay() {
   if (!bgAudio) return;
 
@@ -381,16 +464,11 @@ function attemptAutoplay() {
         setTimeout(() => tapNotice.remove(), 300);
       }
     }).catch(() => {
-      // Nếu chính sách bảo mật trình duyệt chặn không cho phát âm thanh khi chưa tương tác,
-      // tự động kích hoạt ngay khi chạm/click bất kỳ đâu trên màn hình
       enableAutoplayFallback();
     });
   }
 }
 
-/**
- * Cơ chế dự phòng: Kích hoạt âm thanh ngay tại thao tác đầu tiên trên màn hình
- */
 function enableAutoplayFallback() {
   const triggerEvents = ['pointerdown', 'touchstart', 'click', 'keydown', 'wheel'];
   const unlockAudio = () => {
@@ -419,9 +497,7 @@ function toggleAudio() {
     bgAudio.play().then(() => {
       state.isPlayingAudio = true;
       updateAudioUI(true);
-    }).catch((err) => {
-      console.warn(`Không thể phát nhạc. Kiểm tra file ${LOCAL_MUSIC_PATH} trong thư mục!`, err);
-    });
+    }).catch(() => {});
   } else {
     bgAudio.pause();
     state.isPlayingAudio = false;
@@ -447,9 +523,6 @@ function updateAudioUI(isPlaying) {
   }
 }
 
-/* ==========================================================================
- * 5. MODAL: FULLSCREEN LIGHTBOX
- * ========================================================================== */
 function openFullscreenMedia(item) {
   if (!fullscreenContent || !fullscreenModal) return;
   fullscreenContent.innerHTML = '';
@@ -485,7 +558,6 @@ function closeFullscreen() {
   if (!fullscreenModal || !fullscreenContent) return;
   fullscreenModal.classList.add('opacity-0');
 
-  // Tạm dừng video và giải phóng pipeline giải mã trước để tránh khựng luồng render
   const vid = fullscreenContent.querySelector('video');
   if (vid) {
     try {
@@ -501,15 +573,11 @@ function closeFullscreen() {
   }, 200);
 }
 
-/* ==========================================================================
- * 6. MODAL: CÀI ĐẶT & CLOUDINARY & QUẢN LÝ
- * ========================================================================== */
 function initModals() {
   if (btnCloseFullscreen) {
     btnCloseFullscreen.addEventListener('click', closeFullscreen);
   }
 
-  // Bấm vào nền tối bên ngoài ảnh/video cũng tự động đóng modal
   if (fullscreenModal) {
     fullscreenModal.addEventListener('click', (e) => {
       if (e.target === fullscreenModal) {
@@ -518,7 +586,6 @@ function initModals() {
     });
   }
 
-  // Nhấn phím Escape (ESC) trên bàn phím để thoát ngay ảnh/video đang xem
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Esc') {
       if (fullscreenModal && !fullscreenModal.classList.contains('hidden')) {
@@ -583,9 +650,6 @@ function switchTab(activeTab, activeSection) {
   if (activeSection) activeSection.classList.remove('hidden');
 }
 
-/**
- * Tự động phát hiện video hoặc ảnh là khung dọc (portrait) hay ngang (landscape)
- */
 function detectIfPortrait(file) {
   return new Promise((resolve) => {
     if (file.type.startsWith('video')) {
@@ -617,9 +681,6 @@ function detectIfPortrait(file) {
   });
 }
 
-/**
- * Sinh chữ ký SHA-1 cho Cloudinary Signed Upload
- */
 async function generateCloudinarySignature(params, apiSecret) {
   const sortedKeys = Object.keys(params).sort();
   const serialized = sortedKeys.map((k) => `${k}=${params[k]}`).join('&') + apiSecret;
@@ -659,7 +720,6 @@ async function handleCloudinaryUpload() {
       if (uploadProgressFill) uploadProgressFill.style.width = `${percent}%`;
       btnExecuteUpload.innerText = `Đang tải (${i + 1}/${total})...`;
 
-      // Tự động nhận diện khung dọc 9:16 hay ngang 16:9
       const isPortrait = await detectIfPortrait(file);
       const isVideo = file.type.startsWith('video');
       const resourceType = isVideo ? 'video' : 'image';
@@ -694,9 +754,8 @@ async function handleCloudinaryUpload() {
     if (uploadPercentText) uploadPercentText.innerText = '100%';
     if (uploadProgressFill) uploadProgressFill.style.width = '100%';
 
-    // Thêm toàn bộ media mới vào đầu dải phim
     state.mediaList.unshift(...newItems);
-    localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
     renderReel();
 
     setTimeout(() => {
@@ -706,6 +765,7 @@ async function handleCloudinaryUpload() {
       btnExecuteUpload.disabled = false;
       btnExecuteUpload.innerText = 'Bắt đầu Upload';
       settingsModal.classList.add('hidden');
+      syncMediaFromCloudinary();
     }, 500);
   } catch (err) {
     alert(err.message || 'Lỗi khi upload.');
@@ -734,7 +794,7 @@ function handleAddDirectUrl() {
     isPortrait: isPortrait
   });
 
-  localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
   renderReel();
   inputDirectUrl.value = '';
   settingsModal.classList.add('hidden');
@@ -744,7 +804,6 @@ function renderMediaManagerList() {
   if (!mediaManagerList) return;
   mediaManagerList.innerHTML = '';
 
-  // Đếm tần suất xuất hiện của URL để phát hiện mục bị tải lên 2 lần
   const urlCount = {};
   state.mediaList.forEach((m) => {
     urlCount[m.url] = (urlCount[m.url] || 0) + 1;
@@ -762,7 +821,7 @@ function renderMediaManagerList() {
           seen.add(item.url);
           return true;
         });
-        localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
         renderReel();
       };
     } else {
@@ -807,21 +866,19 @@ function renderMediaManagerList() {
       </div>
     `;
 
-    // Nhấn nút tỉ lệ để đổi qua lại Ngang / Dọc theo ý muốn
     row.querySelector('.btn-toggle-ratio').addEventListener('click', () => {
       item.isPortrait = !item.isPortrait;
-      localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
       renderReel();
     });
 
-    // Nhấn nút xóa
     row.querySelector('.btn-delete').addEventListener('click', () => {
       if (state.mediaList.length <= 1) {
         alert('Cần giữ lại ít nhất 1 khung hình trên dải phim.');
         return;
       }
       state.mediaList.splice(idx, 1);
-      localStorage.setItem('pure_film_media', JSON.stringify(state.mediaList));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
       renderReel();
     });
 
@@ -829,13 +886,42 @@ function renderMediaManagerList() {
   });
 }
 
-/* ==========================================================================
- * 7. KHỞI CHẠY (BOOTSTRAP)
- * ========================================================================== */
+async function syncMediaFromCloudinary() {
+  try {
+    const res = await fetch('/api/media?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data && data.success && Array.isArray(data.media) && data.media.length > 0) {
+      const currentSignature = state.mediaList.map((m) => m.url).join('|');
+      const newSignature = data.media.map((m) => m.url).join('|');
+      if (currentSignature !== newSignature) {
+        state.mediaList = data.media;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
+        renderReel();
+      }
+    }
+  } catch (_) {}
+}
+
+function startRealtimeSync() {
+  syncMediaFromCloudinary();
+  setInterval(() => {
+    if (!document.hidden) {
+      syncMediaFromCloudinary();
+    }
+  }, 15000);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      syncMediaFromCloudinary();
+    }
+  });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   initAudio();
   initModals();
   renderReel();
   initReelEvents();
   startAutoScroll();
+  startRealtimeSync();
 });
