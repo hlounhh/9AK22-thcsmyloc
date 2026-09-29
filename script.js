@@ -201,6 +201,10 @@ const btnAddDirectUrl = document.getElementById('btnAddDirectUrl');
 
 const mediaManagerList = document.getElementById('mediaManagerList');
 
+const rotatePromptModal = document.getElementById('rotatePromptModal');
+const btnEnterLandscapeFullscreen = document.getElementById('btnEnterLandscapeFullscreen');
+const btnDismissRotatePrompt = document.getElementById('btnDismissRotatePrompt');
+
 let videoObserver = null;
 let cycleWidthUpdateTimer = null;
 
@@ -965,6 +969,76 @@ function startRealtimeSync() {
   });
 }
 
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 850 && 'ontouchstart' in window);
+}
+
+function checkRotatePrompt() {
+  if (!rotatePromptModal) return;
+  if (sessionStorage.getItem('dismiss_rotate_prompt') === 'true') {
+    hideRotatePrompt();
+    return;
+  }
+  const isLandscape = window.innerWidth > window.innerHeight;
+  if (isMobileDevice() && !isLandscape) {
+    showRotatePrompt();
+  } else {
+    hideRotatePrompt();
+  }
+}
+
+function showRotatePrompt() {
+  if (!rotatePromptModal) return;
+  rotatePromptModal.classList.remove('opacity-0', 'pointer-events-none');
+  rotatePromptModal.classList.add('opacity-100');
+}
+
+function hideRotatePrompt() {
+  if (!rotatePromptModal) return;
+  rotatePromptModal.classList.add('opacity-0', 'pointer-events-none');
+  rotatePromptModal.classList.remove('opacity-100');
+}
+
+function initRotatePrompt() {
+  if (!rotatePromptModal) return;
+
+  checkRotatePrompt();
+
+  window.addEventListener('resize', checkRotatePrompt);
+  if (screen.orientation) {
+    screen.orientation.addEventListener('change', checkRotatePrompt);
+  }
+
+  if (btnEnterLandscapeFullscreen) {
+    btnEnterLandscapeFullscreen.addEventListener('click', async () => {
+      try {
+        const el = document.documentElement;
+        if (el.requestFullscreen) {
+          await el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+          await el.webkitRequestFullscreen();
+        }
+      } catch (_) {}
+
+      try {
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock('landscape');
+        }
+      } catch (_) {}
+
+      sessionStorage.setItem('dismiss_rotate_prompt', 'true');
+      hideRotatePrompt();
+    });
+  }
+
+  if (btnDismissRotatePrompt) {
+    btnDismissRotatePrompt.addEventListener('click', () => {
+      sessionStorage.setItem('dismiss_rotate_prompt', 'true');
+      hideRotatePrompt();
+    });
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   initAudio();
   initModals();
@@ -972,4 +1046,5 @@ window.addEventListener('DOMContentLoaded', () => {
   initReelEvents();
   startAutoScroll();
   startRealtimeSync();
+  initRotatePrompt();
 });

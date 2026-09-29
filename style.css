@@ -81,3 +81,14 @@ html, body {
 .wave-bar-1 { animation: musicPulse 0.8s ease-in-out infinite; }
 .wave-bar-2 { animation: musicPulse 0.6s ease-in-out infinite 0.2s; }
 .wave-bar-3 { animation: musicPulse 0.9s ease-in-out infinite 0.4s; }
+
+@keyframes phoneRotate {
+  0%, 20% { transform: rotate(0deg); }
+  50%, 75% { transform: rotate(-90deg); }
+  95%, 100% { transform: rotate(0deg); }
+}
+.rotate-phone-anim i {
+  animation: phoneRotate 2.5s ease-in-out infinite;
+  display: inline-block;
+  transform-origin: center;
+}

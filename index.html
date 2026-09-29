@@ -47,6 +47,25 @@
     Chạm màn hình để bật nhạc
   </div>
 
+  <div id="rotatePromptModal" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none">
+    <div class="bg-neutral-900/90 border border-neutral-700/60 rounded-3xl p-6 w-full max-w-xs shadow-2xl text-center flex flex-col items-center">
+      <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-4 text-white text-xl rotate-phone-anim">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+      </div>
+      <h3 class="text-sm font-semibold text-white tracking-wide mb-1.5">Trải nghiệm Điện ảnh</h3>
+      <p class="text-xs text-neutral-400 mb-5 leading-relaxed">
+        Xoay ngang màn hình và bật toàn màn hình để ngắm trọn vẹn dải phim.
+      </p>
+      <button id="btnEnterLandscapeFullscreen" class="w-full py-2.5 bg-white text-black font-semibold rounded-xl text-xs active:scale-95 transition mb-2 shadow-lg flex items-center justify-center gap-1.5">
+        <i class="fa-solid fa-expand text-[11px]"></i>
+        <span>Toàn màn hình & Xoay ngang</span>
+      </button>
+      <button id="btnDismissRotatePrompt" class="text-neutral-500 hover:text-neutral-300 text-[11px] py-1 transition">
+        Tiếp tục xem dọc
+      </button>
+    </div>
+  </div>
+
   <div id="fullscreenModal" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 hidden transition-opacity duration-200 opacity-0 cursor-zoom-out">
     <button id="btnCloseFullscreen" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-neutral-900/80 text-white flex items-center justify-center border border-neutral-800 active:scale-95 transition">
       <i class="fa-solid fa-xmark text-sm"></i>
