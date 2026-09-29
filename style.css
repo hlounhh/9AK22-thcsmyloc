@@ -3,13 +3,18 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  height: 100dvh;
+  position: fixed;
+  inset: 0;
   background-color: #000000;
   color: #ffffff;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+}
+
+:fullscreen, ::backdrop {
+  background-color: #000000;
 }
 
 .film-card {
@@ -23,6 +28,15 @@ html, body {
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.95);
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
+}
+
+@media (orientation: landscape) and (max-height: 550px) {
+  .film-card {
+    height: 72vh;
+    min-height: 180px;
+    max-height: 300px;
+    border-radius: 18px;
+  }
 }
 
 .film-card,

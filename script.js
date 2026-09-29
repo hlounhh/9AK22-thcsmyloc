@@ -172,7 +172,6 @@ const bgAudio = document.getElementById('bgAudio');
 const btnToggleAudio = document.getElementById('btnToggleAudio');
 const audioIcon = document.getElementById('audioIcon');
 const soundWaves = document.getElementById('soundWaves');
-const tapNotice = document.getElementById('tapNotice');
 const currentSongLabel = document.getElementById('currentSongLabel');
 
 const fullscreenModal = document.getElementById('fullscreenModal');
@@ -463,10 +462,6 @@ function attemptAutoplay() {
     playPromise.then(() => {
       state.isPlayingAudio = true;
       updateAudioUI(true);
-      if (tapNotice) {
-        tapNotice.style.opacity = '0';
-        setTimeout(() => tapNotice.remove(), 300);
-      }
     }).catch(() => {
       enableAutoplayFallback();
     });
@@ -474,23 +469,22 @@ function attemptAutoplay() {
 }
 
 function enableAutoplayFallback() {
-  const triggerEvents = ['pointerdown', 'touchstart', 'click', 'keydown', 'wheel'];
+  const triggerEvents = ['pointerdown', 'touchstart', 'click'];
   const unlockAudio = () => {
-    if (bgAudio && bgAudio.paused) {
+    if (!bgAudio) return;
+    if (bgAudio.paused) {
       bgAudio.play().then(() => {
         state.isPlayingAudio = true;
         updateAudioUI(true);
-        if (tapNotice) {
-          tapNotice.style.opacity = '0';
-          setTimeout(() => tapNotice.remove(), 300);
-        }
+        triggerEvents.forEach((evt) => {
+          document.removeEventListener(evt, unlockAudio, true);
+        });
       }).catch(() => {});
     }
-    triggerEvents.forEach((evt) => window.removeEventListener(evt, unlockAudio));
   };
 
   triggerEvents.forEach((evt) => {
-    window.addEventListener(evt, unlockAudio, { once: true, passive: true });
+    document.addEventListener(evt, unlockAudio, { capture: true, passive: true });
   });
 }
 
@@ -1004,13 +998,30 @@ function initRotatePrompt() {
 
   checkRotatePrompt();
 
-  window.addEventListener('resize', checkRotatePrompt);
+  const handleViewportChange = () => {
+    checkRotatePrompt();
+    scheduleCycleWidthUpdate();
+    setTimeout(() => {
+      scheduleCycleWidthUpdate();
+      applyScrollTransform();
+    }, 200);
+  };
+
+  window.addEventListener('resize', handleViewportChange);
+  document.addEventListener('fullscreenchange', handleViewportChange);
   if (screen.orientation) {
-    screen.orientation.addEventListener('change', checkRotatePrompt);
+    screen.orientation.addEventListener('change', handleViewportChange);
   }
 
   if (btnEnterLandscapeFullscreen) {
     btnEnterLandscapeFullscreen.addEventListener('click', async () => {
+      if (bgAudio && bgAudio.paused) {
+        bgAudio.play().then(() => {
+          state.isPlayingAudio = true;
+          updateAudioUI(true);
+        }).catch(() => {});
+      }
+
       try {
         const el = document.documentElement;
         if (el.requestFullscreen) {
