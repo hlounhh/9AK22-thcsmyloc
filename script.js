@@ -872,18 +872,66 @@ function renderMediaManagerList() {
       renderReel();
     });
 
-    row.querySelector('.btn-delete').addEventListener('click', () => {
+    row.querySelector('.btn-delete').addEventListener('click', async (e) => {
       if (state.mediaList.length <= 1) {
         alert('Cần giữ lại ít nhất 1 khung hình trên dải phim.');
         return;
       }
-      state.mediaList.splice(idx, 1);
+      const confirmDelete = confirm('Bạn có muốn xóa vĩnh viễn tệp này khỏi Cloudinary và dải phim không?');
+      if (!confirmDelete) return;
+
+      const deleteBtn = e.currentTarget;
+      deleteBtn.disabled = true;
+      deleteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-amber-400"></i>';
+
+      await deleteCloudinaryMedia(item);
+
+      const targetIdx = state.mediaList.findIndex((m) => (m.id && m.id === item.id) || m.url === item.url);
+      if (targetIdx !== -1) {
+        state.mediaList.splice(targetIdx, 1);
+      }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.mediaList));
       renderReel();
     });
 
     mediaManagerList.appendChild(row);
   });
+}
+
+function getCloudinaryPublicId(url) {
+  if (!url) return null;
+  const match = url.match(/\/upload\/(?:v\d+\/)?([^\.]+)/);
+  return match ? match[1] : null;
+}
+
+async function deleteCloudinaryMedia(item) {
+  const publicId = item.public_id || getCloudinaryPublicId(item.url);
+  if (!publicId) return;
+
+  const resourceType = item.type === 'video' ? 'video' : 'image';
+  const timestamp = Math.round(Date.now() / 1000);
+  const signature = await generateCloudinarySignature({ public_id: publicId, timestamp }, CLOUDINARY_CONFIG.apiSecret);
+
+  const formData = new FormData();
+  formData.append('public_id', publicId);
+  formData.append('timestamp', timestamp);
+  formData.append('api_key', CLOUDINARY_CONFIG.apiKey);
+  formData.append('signature', signature);
+
+  try {
+    await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/${resourceType}/destroy`, {
+      method: 'POST',
+      body: formData
+    });
+  } catch (_) {}
+
+  try {
+    await fetch('/api/media', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ public_id: publicId, resource_type: resourceType })
+    });
+  } catch (_) {}
 }
 
 async function syncMediaFromCloudinary() {
